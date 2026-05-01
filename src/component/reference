@@ -1,0 +1,96 @@
+import { useState, useRef, useEffect } from "react";
+function App() {
+  const [elapsed, setElapsed] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  const intervalRef = useRef(null);
+  const startTimeRef = useRef(0);
+  const accumulatedRef = useRef(0);
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
+
+  const start = () => {
+    if (isRunning) return;
+    setIsRunning(true);
+    intervalRef.current = setInterval(() => {
+      setElapsed((s) => s+1);
+    }, 1);
+  };
+
+  const pause = () => {
+    if (!isRunning) return;
+    setIsRunning(false);
+    clearInterval(intervalRef.current);
+    accumulatedRef.current += Date.now() - startTimeRef.current;
+  };
+  
+  const reset = () => {
+    setIsRunning(false);
+    clearInterval(intervalRef.current);
+    accumulatedRef.current = 0;
+    setElapsed(0);
+  };
+
+  const totalSeconds = Math.floor(elapsed / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const centiseconds = Math.floor((elapsed % 1000) / 10);
+  const pad = (n) => String(n).padStart(2, "0");
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-zinc-100 to-zinc-200 flex flex-col items-center justify-center p-6">
+      <div className="bg-white rounded-3xl shadow-xl p-10 w-full max-w-md">
+        <h1 className="text-zinc-500 text-sm uppercase tracking-widest text-center mb-8">
+          Stopwatch
+        </h1>
+        <div className="flex items-end justify-center gap-2 mb-10 font-mono">
+          <TimeBlock value={pad(minutes)} label="min" />
+          <Colon />
+          <TimeBlock value={pad(seconds)} label="sec" />
+          <Colon />
+          <TimeBlock value={pad(centiseconds)} label="ms" muted />
+        </div>
+        <div className="flex justify-center gap-3">
+          <button
+            onClick={isRunning ? pause : start}
+            className={`flex-1 px-6 py-3 rounded-xl font-medium text-white transition-colors ${
+              isRunning
+                ? "bg-amber-500 hover:bg-amber-600"
+                : "bg-emerald-600 hover:bg-emerald-700"
+            }`}
+          >
+            {isRunning ? "Pause" : elapsed > 0 ? "Resume" : "Start"}
+          </button>
+          <button
+            onClick={reset}
+            disabled={elapsed === 0}
+            className="flex-1 px-6 py-3 rounded-xl font-medium text-white bg-zinc-800 hover:bg-zinc-900 disabled:bg-zinc-300 disabled:cursor-not-allowed transition-colors"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+function TimeBlock({ value, label, muted = false }) {
+  return (
+    <div className="flex flex-col items-center">
+      <div
+        className={`tabular-nums text-6xl font-light ${
+          muted ? "text-zinc-400" : "text-zinc-900"
+        }`}
+      >
+        {value}
+      </div>
+      <div className="text-xs uppercase tracking-wider text-zinc-400 mt-1">
+        {label}
+      </div>
+    </div>
+  );
+}
+function Colon() {
+  return <div className="text-5xl font-light text-zinc-300 pb-6">:</div>;
+}
+export default App;
