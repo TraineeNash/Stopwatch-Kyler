@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/[https://TraineeNash.github.io/Stopwatch-Kyler](https://TraineeNash.github.io/Stopwatch-Kyler)/static/css/main.e6c13ad2.css",
+    "main.js": "/[https://TraineeNash.github.io/Stopwatch-Kyler](https://TraineeNash.github.io/Stopwatch-Kyler)/static/js/main.cf589759.js",
+    "index.html": "/[https://TraineeNash.github.io/Stopwatch-Kyler](https://TraineeNash.github.io/Stopwatch-Kyler)/index.html",
+    "main.e6c13ad2.css.map": "/[https://TraineeNash.github.io/Stopwatch-Kyler](https://TraineeNash.github.io/Stopwatch-Kyler)/static/css/main.e6c13ad2.css.map",
+    "main.cf589759.js.map": "/[https://TraineeNash.github.io/Stopwatch-Kyler](https://TraineeNash.github.io/Stopwatch-Kyler)/static/js/main.cf589759.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.cf589759.js"
+  ]
+}
